@@ -1,384 +1,283 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Muffin 💖</title>
-    <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
-            min-height: 100vh;
-            color: #4a4a4a;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samantha | Voice Artist Portfolio</title>
+  <!-- Google Fonts & Canvas Fireworks -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Music Floating Control */
-        #music-btn {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 9999;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #ff6b81;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #d63031;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d0f18;
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        /* Flower Shower Animation */
-        .flower {
-            position: fixed;
-            top: -20px;
-            font-size: 22px;
-            user-select: none;
-            pointer-events: none;
-            animation: fall linear infinite;
-            z-index: 10;
-        }
-        @keyframes fall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.2; }
-        }
+    /* Background Animation Overlay */
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(30, 27, 75, 0.8), rgba(13, 15, 24, 0.95));
+      z-index: 1;
+      transition: all 1.5s ease-in-out;
+    }
 
-        /* Card / Page Container */
-        .page {
-            display: none;
-            width: 100%;
-            max-width: 480px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ffb6c1;
-            padding: 25px 20px;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(238, 156, 167, 0.4);
-            text-align: center;
-            animation: fadeIn 0.6s ease-in-out;
-            position: relative;
-            z-index: 20;
-        }
-        .page.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* Dream Palace Background (Hidden initially) */
+    .dream-palace-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+      opacity: 0;
+      filter: blur(8px) brightness(0.6);
+      transform: scale(1.1);
+      transition: all 2s ease-in-out;
+      z-index: 0;
+    }
 
-        h1, h2 {
-            color: #d63031;
-            margin-bottom: 12px;
-        }
-        .romantic-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 38px;
-            color: #e84393;
-        }
-        p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
+    /* Active Dream Palace Style */
+    body.palace-active .dream-palace-bg {
+      opacity: 1;
+      filter: blur(2px) brightness(0.85);
+      transform: scale(1);
+    }
 
-        /* Custom Input & Buttons */
-        input[type="password"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ff6b81;
-            border-radius: 12px;
-            outline: none;
-            text-align: center;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-        .btn {
-            background: linear-gradient(45deg, #ff4757, #ff6b81);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
-            transition: all 0.2s ease;
-            margin: 5px;
-        }
-        .btn:hover {
-            transform: scale(1.05);
-        }
-        .btn-secondary {
-            background: #f1f2f6;
-            color: #2f3542;
-            border: 1px solid #dfe4ea;
-        }
+    body.palace-active .bg-overlay {
+      background: radial-gradient(circle at center, rgba(255, 215, 0, 0.15), rgba(10, 10, 25, 0.6));
+    }
 
-        /* Specific Elements */
-        .counter-box {
-            background: #fff0f3;
-            border: 1px dashed #ff6b81;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 18px;
-            font-weight: 700;
-            color: #d63031;
-        }
-        .memory-card {
-            background: #ffffff;
-            border-left: 4px solid #ff6b81;
-            padding: 12px;
-            margin: 10px 0;
-            text-align: left;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .badge {
-            background: #ff6b81;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 13px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-        .photo-frame {
-            width: 100%;
-            height: 200px;
-            background: #ffeaa7;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            margin-bottom: 15px;
-            border: 3px dashed #fdcb6e;
-        }
-    </style>
+    /* Main Container Card */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      width: 90%;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      transition: transform 0.5s ease, border-color 0.5s ease;
+    }
+
+    body.palace-active .container {
+      border-color: rgba(255, 215, 0, 0.4);
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+    }
+
+    /* Typography */
+    .subtitle {
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fbbf24;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #fff 30%, #a7f3d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.description {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    /* Voice Waveform Graphic */
+    .voice-waves {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      height: 40px;
+      margin-bottom: 30px;
+    }
+
+    .wave-bar {
+      width: 4px;
+      height: 100%;
+      background: #fbbf24;
+      border-radius: 2px;
+      animation: quiet 1.5s ease-in-out infinite;
+    }
+
+    .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.6s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.8s; }
+
+    @keyframes quiet {
+      0%, 100% { height: 10px; }
+      50% { height: 35px; }
+    }
+
+    /* Interactive Section */
+    .question-box {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .question-box h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      color: #f8fafc;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-yes:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(245, 158, 11, 0.5);
+    }
+
+    .btn-no {
+      background: rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-no:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    /* Magic Message Revealed on YES */
+    .magic-message {
+      display: none;
+      margin-top: 25px;
+      font-size: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      color: #ffe4e6;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+      animation: fadeIn 1.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Audio Element (Tum Hi Ho Instrumental / Romantic Track) -->
-    <audio id="bg-music" loop preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-love-song-112199.mp3" type="audio/mpeg">
-    </audio>
-    <button id="music-btn" onclick="toggleMusic()">🎵 Music: OFF</button>
+  <!-- Dream Palace Background Image -->
+  <div class="dream-palace-bg"></div>
+  <div class="bg-overlay"></div>
 
-    <!-- PAGE 1: Lock Screen -->
-    <div id="page1" class="page active">
-        <div class="badge">Security Check 🔒</div>
-        <h2>Hum sabse pehle kahan mile the?</h2>
-        <p>Aapko wo platform ka naam pata hi hoga... 👀</p>
-        <input type="password" id="pass-input" placeholder="Platform Ka Naam Enter Karo...">
-        <br>
-        <button class="btn" onclick="checkPass()">Unlock 💖</button>
-        <p id="error-msg" style="color: red; display: none; font-size: 13px; margin-top: 8px;">Galat jawab! Hint: Gaming app 🎮</p>
+  <div class="container">
+    <div class="subtitle">Voice Artist Portfolio</div>
+    <h1>Samantha</h1>
+    
+    <!-- Animated Voice Waveform -->
+    <div class="voice-waves">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
     </div>
 
-    <!-- PAGE 2: Welcome & Days Counter -->
-    <div id="page2" class="page">
-        <div class="badge">Our Journey 🗓️</div>
-        <h1 class="romantic-title">Hey Muffin! ✨</h1>
-        <p>Jab se tum meri life mein aayi ho, har din special ban gaya hai.</p>
-        <div class="counter-box">
-            WePlay par milne se lekar aaj tak:<br>
-            <span id="days-count" style="font-size: 26px;">600+</span> Days! 🥰
-        </div>
-        <p>Kya tum ready ho humari choti si yaadon ki duniya dekhne ke liye?</p>
-        <button class="btn" onclick="nextPage(3)">Aage Chalo ➡️</button>
+    <p class="description">
+      Bringing stories to life with depth, emotion, and elegance. Welcome to Samantha's official voice world.
+    </p>
+
+    <div class="question-box">
+      <h3 id="question-text">Would you like to step into Samantha's Dream Palace?</h3>
+      
+      <div class="btn-group" id="btn-group">
+        <button class="btn btn-yes" onclick="triggerDreamPalace()">YES</button>
+        <button class="btn btn-no" onclick="alert('Take your time!')">NO</button>
+      </div>
+
+      <div class="magic-message" id="magic-message">
+        ✨ Welcome to Samantha's Dream Palace ✨
+      </div>
     </div>
+  </div>
 
-    <!-- PAGE 3: Interactive Activity - Memory Cards -->
-    <div id="page3" class="page">
-        <div class="badge">Activity #1 💌</div>
-        <h2>Special Moments With You</h2>
-        <div class="memory-card">
-            <strong>🎮 WePlay Evenings:</strong> Late night games aur wo bina waja ki batein!
-        </div>
-        <div class="memory-card">
-            <strong>✨ Your Smile:</strong> Tumhari hansi sabse badi khushfeemi hai meri.
-        </div>
-        <div class="memory-card">
-            <strong>❤️ Pure Connection:</strong> Bina kuch kahe ek doosre ko samajhna.
-        </div>
-        <br>
-        <button class="btn" onclick="nextPage(4)">Ek Surprise Aur Hai ➡️</button>
-    </div>
+  <script>
+    function triggerDreamPalace() {
+      // 1. Activate Dream Palace Background & Effects
+      document.body.classList.add('palace-active');
+      
+      // 2. Hide buttons & Show Celebration Message
+      document.getElementById('btn-group').style.display = 'none';
+      document.getElementById('question-text').style.display = 'none';
+      document.getElementById('magic-message').style.display = 'block';
 
-    <!-- PAGE 4: Interactive Activity - Love Reasons -->
-    <div id="page4" class="page">
-        <div class="badge">Activity #2 🌸</div>
-        <h2>Why You Are So Special?</h2>
-        <p id="reason-text" style="font-weight: 600; color: #e84393; min-height: 50px;">
-            Niche button daba kar dekho... 
-        </p>
-        <button class="btn btn-secondary" onclick="generateReason()">✨ Nayi Waja Dekho</button>
-        <br><br>
-        <button class="btn" onclick="nextPage(5)">Ab Main Heart Ki Baat Bolun? ➡️</button>
-    </div>
+      // 3. Launch Fireworks (Multiple bursts)
+      var duration = 5 * 1000;
+      var animationEnd = Date.now() + duration;
+      var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
 
-    <!-- PAGE 5: Main Proposal Heartfelt Letter -->
-    <div id="page5" class="page">
-        <div class="badge">Heartfelt Letter 📜</div>
-        <div class="romantic-title">My Dearest Muffin</div>
-        <p style="text-align: left; font-size: 14px;">
-            Kuch log life mein aate hain aur sab kuch badal dete hain... mere liye wo tum ho. Jab se tum meri life mein aayi ho, mujhe har lamha tumhare saath jeena acha lagne laga hai.<br><br>
-            Main sirf tumhare saath waqt nahi bitana chahta, balki tumhare saath apni poori life build karna chahta hoon.<br><br>
-            <b>Main tumse bohot pyar karta hoon, Muffin. Kya tum meri girlfriend banogi? Will you officially step into a relationship with me? 💍</b>
-        </p>
-        <button class="btn" onclick="nextPage(6)">Proposal Answer Karo 💖</button>
-    </div>
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
 
-    <!-- PAGE 6: Interactive Proposal Buttons (Moving No Button) -->
-    <div id="page6" class="page">
-        <div class="badge">The Big Question ❓</div>
-        <h2>Muffin, Will You Be Mine? 🥺</h2>
-        <p>"There are a lot of muffins in the world, but you're my absolute favorite."</p>
-        <br>
-        <div style="min-height: 80px; position: relative;">
-            <button class="btn" id="yes-btn" onclick="acceptProposal()" style="font-size: 18px; padding: 15px 30px;">YES! 💖</button>
-            <button class="btn btn-secondary" id="no-btn" onmouseover="moveNo()" onclick="moveNo()" style="position: absolute;">No 😜</button>
-        </div>
-    </div>
+      var interval = setInterval(function() {
+        var timeLeft = animationEnd - Date.now();
 
-    <!-- PAGE 7: Celebration Final Screen (I Love You Page) -->
-    <div id="page7" class="page">
-        <div class="badge" style="background:#2ed573;">Matched Forever 🎉</div>
-        <h1 style="color:#ff4757;">I Love You, Muffin! 💖</h1>
-        <div class="photo-frame">👩‍❤️‍👨</div>
-        <p><i>"Kyunki tum hi ho, ab tum hi ho... Meri aashiqui ab tum hi ho..." 🎶</i></p>
-        <p>WePlay par milne se lekar aaj official hone tak, tum meri life ki sabse khoobsurat feeling ho!</p>
-        <p style="font-size: 13px; color: #777;">Ab jaldi se mujhe screenshot bhej do! 📲</p>
-    </div>
-
-    <script>
-        const music = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-btn');
-        let musicPlaying = false;
-
-        function playRomanticSong() {
-            music.currentTime = 0; // Restart song for peak romantic feel
-            music.play().then(() => {
-                musicBtn.innerHTML = "🎵 Playing: Tum Hi Ho ❤️";
-                musicPlaying = true;
-            }).catch(() => {
-                console.log("Autoplay blocked by browser");
-            });
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
         }
 
-        function toggleMusic() {
-            if (musicPlaying) {
-                music.pause();
-                musicBtn.innerHTML = "🎵 Music: OFF";
-                musicPlaying = false;
-            } else {
-                playRomanticSong();
-            }
-        }
+        var particleCount = 50 * (timeLeft / duration);
 
-        // Page Navigation Logic
-        function nextPage(pageNumber) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page' + pageNumber).classList.add('active');
-        }
-
-        // Password Verification
-        function checkPass() {
-            const input = document.getElementById('pass-input').value.trim().toLowerCase();
-            if (input === 'weplay') {
-                nextPage(2);
-                calculateExactDays();
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-            }
-        }
-
-        // Days Counter (Exact 600+ Days)
-        function calculateExactDays() {
-            const startDate = new Date();
-            startDate.setDate(startDate.getDate() - 600); 
-            
-            const today = new Date();
-            const diffTime = Math.abs(today - startDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            document.getElementById('days-count').innerText = diffDays + "+";
-        }
-
-        // Reasons Generator
-        const reasons = [
-            "Tumhari masoomiyat aur cute batein! 🌸",
-            "Mera khayal rakhne ka pyara tarika! 🤗",
-            "Jab tum roti ho ya gussa hoti ho tab bhi cute lagti ho! 😜",
-            "Humari late night deep conversations! 🌙",
-            "Mera din tumhare ek message se ban jata hai! ☀️"
-        ];
-        function generateReason() {
-            const random = reasons[Math.floor(Math.random() * reasons.length)];
-            document.getElementById('reason-text').innerText = random;
-        }
-
-        // Flower Shower
-        function createFlowers() {
-            const flowers = ['🌸', '🌺', '🌹', '✨', '💖'];
-            setInterval(() => {
-                const flower = document.createElement('div');
-                flower.classList.add('flower');
-                flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-                flower.style.left = Math.random() * 100 + 'vw';
-                flower.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                document.body.appendChild(flower);
-                setTimeout(() => flower.remove(), 5000);
-            }, 300);
-        }
-        createFlowers();
-
-        // Moving No Button Logic
-        let noScale = 1;
-        let yesScale = 1;
-        function moveNo() {
-            const noBtn = document.getElementById('no-btn');
-            const yesBtn = document.getElementById('yes-btn');
-            
-            const x = Math.random() * (window.innerWidth - 120);
-            const y = Math.random() * (window.innerHeight - 60);
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-
-            noScale -= 0.15;
-            yesScale += 0.15;
-            if (noScale > 0.2) noBtn.style.transform = `scale(${noScale})`;
-            yesBtn.style.transform = `scale(${yesScale})`;
-        }
-
-        // Acceptance Celebration (Triggers "Tum Hi Ho" Song Automatic)
-        function acceptProposal() {
-            confetti({
-                particleCount: 250,
-                spread: 120,
-                origin: { y: 0.6 }
-            });
-            nextPage(7);
-            playRomanticSong(); // Automatic song start on YES click
-        }
-    </script>
+        // Fireworks from left and right
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+      }, 250);
+    }
+  </script>
 </body>
 </html>
-
